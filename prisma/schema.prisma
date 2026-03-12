@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model DailyLog {
+  id            String      @id @default(cuid())
+  date          String      @unique // Format: YYYY-MM-DD
+  totalCalories Int         @default(0)
+  totalProtein  Int         @default(0)
+  totalCarbs    Int         @default(0)
+  totalFat      Int         @default(0)
+  foods         FoodEntry[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model FoodEntry {
+  id                    String   @id @default(cuid())
+  name                  String
+  quantity_description  String
+  calories              Int
+  protein               Int
+  carbs                 Int
+  fat                   Int
+  nutritional_breakdown Json     @default("{}")
+  logId                 String
+  dailyLog              DailyLog @relation(fields: [logId], references: [id], onDelete: Cascade)
+  createdAt             DateTime @default(now())
+}
