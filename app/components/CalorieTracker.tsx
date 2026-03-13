@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Trash2, Utensils, Loader2, BrainCircuit, Activity, Info, ChevronDown, RefreshCw, Download } from 'lucide-react';
 import UserProfile, { UserProfileData } from './UserProfile';
-import HistorySidebar from './HistorySidebar';
 
 interface FoodItem {
   id: string;
@@ -27,26 +26,6 @@ export default function CalorieTracker() {
 
   // Profile State
   const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
-
-  // Fetch today's logs on mount
-  React.useEffect(() => {
-    const fetchTodayLogs = async () => {
-      try {
-        const res = await fetch('/api/logs');
-        if (res.ok) {
-          const allLogs = await res.json();
-          const todayDate = new Date().toLocaleDateString('en-CA');
-          const todayLog = allLogs.find((log: any) => log.date === todayDate);
-          if (todayLog && todayLog.foods) {
-            setFoods(todayLog.foods.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
-          }
-        }
-      } catch (err) {
-        console.error("Failed to fetch today's log", err);
-      }
-    };
-    fetchTodayLogs();
-  }, []);
 
   const handleReset = () => {
     if (window.confirm("Are you sure you want to reset your daily progress?")) {
@@ -144,15 +123,6 @@ export default function CalorieTracker() {
       } else {
         setFoods((prev) => [...newItems, ...prev]);
         setInput('');
-
-        // Persist to database
-        newItems.forEach(item => {
-          fetch('/api/logs', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(item),
-          }).catch(err => console.error("Failed to save to DB", err));
-        });
       }
 
     } catch (err: any) {
@@ -190,13 +160,6 @@ export default function CalorieTracker() {
 
     setFoods((prev) => [newItem, ...prev]);
     setManualEntry({ name: '', calories: 0, protein: 0, carbs: 0, fat: 0 });
-    
-    // Persist to database
-    fetch('/api/logs', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newItem),
-    }).catch(err => console.error("Failed to save manual entry to DB", err));
     // Optionally flip back to AI mode, or stay in manual mode
     // setIsManualMode(false); 
   };
@@ -211,9 +174,6 @@ export default function CalorieTracker() {
 
   return (
     <div className="w-full max-w-md mx-auto relative z-10">
-
-      {/* History Sidebar Component */}
-      <HistorySidebar />
 
       {/* User Profile Modal Component */}
       <UserProfile onProfileUpdate={setUserProfile} />
