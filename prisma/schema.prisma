@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  createdAt DateTime   @default(now())
+  logs      DailyLog[]
+}
+
+model DailyLog {
+  id            String      @id @default(cuid())
+  date          String      // Stored as YYYY-MM-DD
+  totalCalories Int         @default(0)
+  totalProtein  Int         @default(0)
+  totalCarbs    Int         @default(0)
+  totalFat      Int         @default(0)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  foods         FoodEntry[]
+
+  @@unique([date, userId]) // A user can only have one log per day
+}
+
+model FoodEntry {
+  id                    String   @id @default(cuid())
+  name                  String
+  quantity_description  String
+  calories              Int
+  protein               Int
+  carbs                 Int
+  fat                   Int
+  nutritional_breakdown Json     // Stores the detailed breakdown
+  createdAt             DateTime @default(now())
+  
+  logId                 String
+  log                   DailyLog  @relation(fields: [logId], references: [id], onDelete: Cascade)
+}

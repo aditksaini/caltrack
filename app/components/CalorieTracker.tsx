@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Trash2, Utensils, Loader2, BrainCircuit, Activity, Info, ChevronDown, RefreshCw, Download } from 'lucide-react';
 import UserProfile, { UserProfileData } from './UserProfile';
+import HistorySidebar from './HistorySidebar';
+import LoginModal from './LoginModal';
 
 interface FoodItem {
   id: string;
@@ -24,8 +26,34 @@ export default function CalorieTracker() {
   const [lastReasoning, setLastReasoning] = useState<string | null>(null);
   const [expandedFoodId, setExpandedFoodId] = useState<string | null>(null);
 
+  // Auth State
+  const [userId, setUserId] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
+
   // Profile State
   const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
+
+  const fetchTodayLogs = async (uid: string) => {
+    try {
+      const res = await fetch(`/api/logs?userId=${uid}`);
+      if (res.ok) {
+        const allLogs = await res.json();
+        const todayDate = new Date().toLocaleDateString('en-CA');
+        const todayLog = allLogs.find((log: any) => log.date === todayDate);
+        if (todayLog && todayLog.foods) {
+          setFoods(todayLog.foods.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
+        }
+      }
+    } catch (err) {
+      console.error("Failed to fetch today's log", err);
+    }
+  };
+
+  const handleLogin = (uid: string, name: string) => {
+    setUserId(uid);
+    setUserName(name);
+    fetchTodayLogs(uid);
+  };
 
   const handleReset = () => {
     if (window.confirm("Are you sure you want to reset your daily progress?")) {
@@ -33,6 +61,11 @@ export default function CalorieTracker() {
       setLastReasoning(null);
       setError(null);
       setExpandedFoodId(null);
+
+      if (userId) {
+        fetch(`/api/logs?clearToday=true&userId=${userId}`, { method: 'DELETE' })
+          .catch(err => console.error("Failed to clear DB logs", err));
+      }
     }
   };
 
@@ -123,6 +156,17 @@ export default function CalorieTracker() {
       } else {
         setFoods((prev) => [...newItems, ...prev]);
         setInput('');
+
+        // Persist to database
+        if (userId) {
+          newItems.forEach(item => {
+            fetch('/api/logs', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ...item, userId }),
+            }).catch(err => console.error("Failed to save to DB", err));
+          });
+        }
       }
 
     } catch (err: any) {
@@ -160,12 +204,24 @@ export default function CalorieTracker() {
 
     setFoods((prev) => [newItem, ...prev]);
     setManualEntry({ name: '', calories: 0, protein: 0, carbs: 0, fat: 0 });
-    // Optionally flip back to AI mode, or stay in manual mode
-    // setIsManualMode(false); 
+    
+    // Persist to database
+    if (userId) {
+      fetch('/api/logs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...newItem, userId }),
+      }).catch(err => console.error("Failed to save manual entry to DB", err));
+    }
   };
 
   const removeFood = (id: string) => {
     setFoods((prev) => prev.filter((item) => item.id !== id));
+
+    if (userId) {
+      fetch(`/api/logs?id=${id}&userId=${userId}`, { method: 'DELETE' })
+        .catch(err => console.error("Failed to delete from DB", err));
+    }
   };
   
   const toggleExpand = (id: string) => {
@@ -173,7 +229,11 @@ export default function CalorieTracker() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto relative z-10">
+    <div className="w-[92%] sm:w-full max-w-md mx-auto relative z-10">
+      
+      {!userId && <LoginModal onLogin={handleLogin} />}
+
+      {userId && <HistorySidebar userId={userId} />}
 
       {/* User Profile Modal Component */}
       <UserProfile onProfileUpdate={setUserProfile} />
