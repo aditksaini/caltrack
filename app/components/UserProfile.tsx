@@ -138,9 +138,9 @@ export default function UserProfile({ onProfileUpdate }: UserProfileProps) {
       {/* Settings Toggle Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed top-4 right-4 md:top-8 md:right-8 z-50 p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-colors group shadow-lg"
+        className="fixed top-4 right-4 md:top-8 md:right-8 z-50 p-3 bg-white hover:bg-slate-50 ring-1 ring-slate-200 rounded-full transition-colors group shadow-md"
       >
-        <Settings className="w-5 h-5 text-white/60 group-hover:text-white group-hover:rotate-45 transition-all duration-300" />
+        <Settings className="w-5 h-5 text-slate-400 group-hover:text-slate-600 group-hover:rotate-45 transition-all duration-300" />
       </button>
 
       {/* Modal Overlay */}
@@ -150,30 +150,30 @@ export default function UserProfile({ onProfileUpdate }: UserProfileProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm"
           >
             <motion.div
               initial={{ scale: 0.95, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 20 }}
-              className="bg-slate-900 border border-white/10 rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
+              className="bg-[#F2F2F7] ring-1 ring-slate-200 rounded-[24px] w-full max-w-lg overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
             >
               {/* Header */}
-              <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/5">
+              <div className="p-6 border-b border-slate-200 flex items-center justify-between bg-white">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-indigo-500/20 rounded-xl">
-                    <Calculator className="w-5 h-5 text-indigo-400" />
+                  <div className="p-2 bg-blue-50 rounded-xl ring-1 ring-blue-100">
+                    <Calculator className="w-5 h-5 text-blue-500" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-white tracking-tight">Your Profile</h2>
-                    <p className="text-white/50 text-xs mt-0.5">We use this to calculate your daily goals.</p>
+                    <h2 className="text-xl font-extrabold text-slate-800 tracking-tight">Your Profile</h2>
+                    <p className="text-slate-500 text-xs mt-0.5 font-medium">We use this to calculate your daily goals.</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                  className="p-2 hover:bg-slate-100 rounded-full transition-colors"
                 >
-                  <X className="w-5 h-5 text-white/40 hover:text-white" />
+                  <X className="w-5 h-5 text-slate-400 hover:text-slate-600" />
                 </button>
               </div>
 
@@ -183,22 +183,22 @@ export default function UserProfile({ onProfileUpdate }: UserProfileProps) {
                 <div className="grid grid-cols-2 gap-4">
                   {/* Age */}
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold uppercase tracking-wider text-white/50">Age</label>
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1 ml-1">Age</label>
                     <input
                       type="number"
                       min="15" max="100"
                       value={profile.age}
                       onChange={(e) => setProfile({ ...profile, age: parseInt(e.target.value) || 0 })}
-                      className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500/50 transition-colors"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-colors shadow-sm font-medium"
                     />
                   </div>
                   {/* Gender */}
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold uppercase tracking-wider text-white/50">Gender</label>
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1 ml-1">Gender</label>
                     <select
                       value={profile.gender}
                       onChange={(e) => setProfile({ ...profile, gender: e.target.value as any })}
-                      className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500/50 transition-colors appearance-none"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-colors shadow-sm font-medium appearance-none"
                     >
                       <option value="male">Male</option>
                       <option value="female">Female</option>
@@ -209,35 +209,35 @@ export default function UserProfile({ onProfileUpdate }: UserProfileProps) {
                 <div className="grid grid-cols-2 gap-4">
                   {/* Weight */}
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold uppercase tracking-wider text-white/50">Weight (kg)</label>
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1 ml-1">Weight (kg)</label>
                     <input
                       type="number"
                       min="30" max="300"
                       value={profile.weightKg}
                       onChange={(e) => setProfile({ ...profile, weightKg: parseInt(e.target.value) || 0 })}
-                      className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500/50 transition-colors"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-colors shadow-sm font-medium"
                     />
                   </div>
                   {/* Height */}
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold uppercase tracking-wider text-white/50">Height (cm)</label>
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1 ml-1">Height (cm)</label>
                     <input
                       type="number"
                       min="100" max="250"
                       value={profile.heightCm}
                       onChange={(e) => setProfile({ ...profile, heightCm: parseInt(e.target.value) || 0 })}
-                      className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500/50 transition-colors"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-colors shadow-sm font-medium"
                     />
                   </div>
                 </div>
 
                 {/* Activity Level */}
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-white/50">Activity Level</label>
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1 ml-1">Activity Level</label>
                   <select
                     value={profile.activityLevel}
                     onChange={(e) => setProfile({ ...profile, activityLevel: e.target.value as any })}
-                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500/50 transition-colors appearance-none"
+                    className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-colors shadow-sm font-medium appearance-none"
                   >
                     <option value="sedentary">Sedentary (Little to no exercise)</option>
                     <option value="lightly_active">Lightly Active (1-3 days/week)</option>
@@ -249,23 +249,23 @@ export default function UserProfile({ onProfileUpdate }: UserProfileProps) {
 
                 {/* Goal Level */}
                 <div className="space-y-2 py-2">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-white/50 mb-3 block">Primary Goal</label>
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-3 ml-1 block">Primary Goal</label>
                   <div className="grid grid-cols-3 gap-2">
                     <button
                       onClick={() => setProfile({ ...profile, goal: 'lose' })}
-                      className={`py-3 rounded-xl border text-sm font-medium transition-all ${profile.goal === 'lose' ? 'bg-indigo-500/20 border-indigo-500 text-indigo-300' : 'bg-black/20 border-white/5 text-white/50 hover:bg-white/5 hover:text-white/80'}`}
+                      className={`py-3 rounded-xl ring-1 text-sm font-bold transition-all shadow-sm ${profile.goal === 'lose' ? 'bg-blue-50 ring-blue-200 text-blue-700' : 'bg-white ring-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700'}`}
                     >
                       Lose Fast
                     </button>
                     <button
                       onClick={() => setProfile({ ...profile, goal: 'maintain' })}
-                      className={`py-3 rounded-xl border text-sm font-medium transition-all ${profile.goal === 'maintain' ? 'bg-indigo-500/20 border-indigo-500 text-indigo-300' : 'bg-black/20 border-white/5 text-white/50 hover:bg-white/5 hover:text-white/80'}`}
+                      className={`py-3 rounded-xl ring-1 text-sm font-bold transition-all shadow-sm ${profile.goal === 'maintain' ? 'bg-blue-50 ring-blue-200 text-blue-700' : 'bg-white ring-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700'}`}
                     >
                       Maintain
                     </button>
                     <button
                       onClick={() => setProfile({ ...profile, goal: 'gain' })}
-                      className={`py-3 rounded-xl border text-sm font-medium transition-all ${profile.goal === 'gain' ? 'bg-indigo-500/20 border-indigo-500 text-indigo-300' : 'bg-black/20 border-white/5 text-white/50 hover:bg-white/5 hover:text-white/80'}`}
+                      className={`py-3 rounded-xl ring-1 text-sm font-bold transition-all shadow-sm ${profile.goal === 'gain' ? 'bg-blue-50 ring-blue-200 text-blue-700' : 'bg-white ring-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700'}`}
                     >
                       Gain Muscle
                     </button>
@@ -274,18 +274,18 @@ export default function UserProfile({ onProfileUpdate }: UserProfileProps) {
 
                 {/* Display Current Calculation based on inputs instantly */}
                 {profile.calculatedTargets && (
-                  <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-2xl p-4 mt-6">
-                    <h4 className="text-indigo-300/80 text-[10px] uppercase font-bold tracking-widest mb-3">Estimated Targets</h4>
+                  <div className="bg-slate-100 ring-1 ring-slate-200 rounded-2xl p-4 mt-6">
+                    <h4 className="text-slate-500 text-[10px] uppercase font-bold tracking-widest mb-3">Estimated Targets</h4>
                     <div className="flex items-end justify-between mb-4">
                       <div>
-                        <span className="text-3xl font-black text-white">{calculateTargets(profile)?.calories}</span>
-                        <span className="text-white/50 text-sm ml-1 uppercase">kcal/day</span>
+                        <span className="text-3xl font-black text-slate-800 tracking-tight">{calculateTargets(profile)?.calories}</span>
+                        <span className="text-slate-500 text-sm ml-1 uppercase font-bold">kcal/day</span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4 text-sm font-medium">
-                      <span className="text-indigo-200">{calculateTargets(profile)?.proteinGrams}g <span className="text-indigo-200/50 text-xs">Protein</span></span>
-                      <span className="text-pink-200">{calculateTargets(profile)?.carbsGrams}g <span className="text-pink-200/50 text-xs">Carbs</span></span>
-                      <span className="text-amber-200">{calculateTargets(profile)?.fatGrams}g <span className="text-amber-200/50 text-xs">Fat</span></span>
+                    <div className="flex items-center gap-4 text-sm font-bold">
+                      <span className="text-blue-600">{calculateTargets(profile)?.proteinGrams}g <span className="text-slate-500 text-[10px] uppercase">Protein</span></span>
+                      <span className="text-indigo-600">{calculateTargets(profile)?.carbsGrams}g <span className="text-slate-500 text-[10px] uppercase">Carbs</span></span>
+                      <span className="text-purple-600">{calculateTargets(profile)?.fatGrams}g <span className="text-slate-500 text-[10px] uppercase">Fat</span></span>
                     </div>
                   </div>
                 )}
@@ -293,10 +293,10 @@ export default function UserProfile({ onProfileUpdate }: UserProfileProps) {
               </div>
 
               {/* Footer */}
-              <div className="p-6 border-t border-white/5 bg-black/40">
+              <div className="p-6 border-t border-slate-200 bg-white">
                 <button
                   onClick={handleSave}
-                  className="w-full py-4 bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-600 hover:to-pink-600 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/25 transition-all flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
                 >
                   {isSaved ? (
                     <><CheckCircle2 className="w-5 h-5" /> Saved Successfully</>

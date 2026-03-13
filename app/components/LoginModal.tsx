@@ -58,26 +58,23 @@ export default function LoginModal({ onLogin }: LoginModalProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4"
+        className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[100] flex items-center justify-center p-4"
       >
         <motion.div
           initial={{ scale: 0.9, y: 20 }}
           animate={{ scale: 1, y: 0 }}
-          className="bg-gray-900 border border-white/10 p-8 rounded-3xl w-full max-w-sm relative overflow-hidden shadow-2xl"
+          className="bg-white border border-slate-200 p-8 rounded-[24px] w-full max-w-sm relative overflow-hidden shadow-2xl"
         >
-          {/* Aesthetic Background Orbs */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/20 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
-          <div className="absolute bottom-0 left-0 w-32 h-32 bg-pink-500/20 rounded-full blur-3xl -ml-16 -mb-16 pointer-events-none"></div>
 
           <div className="relative z-10">
             <div className="flex justify-center mb-6">
-              <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shadow-inner">
-                <User className="w-8 h-8 text-indigo-400" />
+              <div className="w-16 h-16 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-center shadow-sm">
+                <User className="w-8 h-8 text-blue-500" />
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold text-center text-white mb-2">Welcome to CalTrack</h2>
-            <p className="text-center text-white/50 text-sm mb-8">
+            <h2 className="text-2xl font-extrabold text-center text-slate-800 mb-2 tracking-tight">Welcome to CalTrack</h2>
+            <p className="text-center text-slate-500 text-sm mb-8 font-medium">
               Please enter your name to access your personal calorie log and history.
             </p>
 
@@ -88,20 +85,20 @@ export default function LoginModal({ onLogin }: LoginModalProps) {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your First Name (e.g., Adit)"
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all text-center text-lg"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all text-center text-lg font-bold shadow-sm"
                   autoFocus
                   required
                 />
               </div>
 
               {error && (
-                <p className="text-red-400 text-sm text-center">{error}</p>
+                <p className="text-red-500 text-sm text-center font-medium">{error}</p>
               )}
 
               <button
                 type="submit"
                 disabled={isLoading || !name.trim()}
-                className="w-full bg-white text-black hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-white/10"
+                className="w-full bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-md mt-2"
               >
                 {isLoading ? (
                   <Loader2 className="w-5 h-5 animate-spin" />

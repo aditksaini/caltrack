@@ -242,21 +242,18 @@ export default function CalorieTracker() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl p-8 shadow-2xl mb-8 flex flex-col items-center justify-center relative overflow-hidden"
+        className="bg-white rounded-[24px] p-8 shadow-sm ring-1 ring-slate-100 mb-8 flex flex-col items-center justify-center relative overflow-hidden"
       >
-        <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl -mr-16 -mt-16"></div>
-        <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl -ml-16 -mb-16"></div>
-
         <div className="w-full flex items-center justify-between mb-6 z-10 px-2">
-          <h2 className="text-white/80 text-sm font-medium tracking-wide uppercase flex items-center gap-2">
-            <Activity className="w-4 h-4 text-pink-400" /> Daily Macros
+          <h2 className="text-slate-500 text-xs font-semibold tracking-wide uppercase flex items-center gap-2">
+            <Activity className="w-4 h-4 text-blue-500" /> Daily Macros
           </h2>
           {foods.length > 0 && (
             <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={handleExport}
-                className="text-indigo-300 hover:text-indigo-200 transition-colors flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider border border-indigo-500/20 bg-indigo-500/10 hover:bg-indigo-500/20 px-2.5 py-1.5 rounded-md"
+                className="text-slate-500 hover:text-blue-600 transition-colors flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider bg-slate-50 hover:bg-blue-50 px-2.5 py-1.5 rounded-md"
                 title="Export Log as CSV"
               >
                 <Download className="w-3.5 h-3.5" />
@@ -265,7 +262,7 @@ export default function CalorieTracker() {
               <button
                 type="button"
                 onClick={handleReset}
-                className="text-white/40 hover:text-white/90 transition-colors flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider border border-white/10 bg-black/20 hover:bg-black/40 px-2.5 py-1.5 rounded-md"
+                className="text-slate-400 hover:text-red-500 transition-colors flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider bg-slate-50 hover:bg-red-50 px-2.5 py-1.5 rounded-md"
                 title="Reset Daily Log"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
@@ -285,7 +282,7 @@ export default function CalorieTracker() {
               stroke="currentColor"
               strokeWidth="12"
               fill="transparent"
-              className="text-white/10"
+              className="text-slate-100"
             />
             {/* Progress Circle */}
             <motion.circle
@@ -304,52 +301,52 @@ export default function CalorieTracker() {
             {/* Gradient Definition */}
             <defs>
               <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#4F46E5" /> {/* Indigo-600 */}
-                <stop offset="100%" stopColor="#EC4899" /> {/* Pink-500 */}
+                <stop offset="0%" stopColor="#3B82F6" /> {/* Blue 500 */}
+                <stop offset="100%" stopColor="#6366F1" /> {/* Indigo 500 */}
               </linearGradient>
             </defs>
           </svg>
 
           <div className="absolute flex flex-col items-center justify-center text-center">
-            <span className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-pink-300">
+            <span className="text-4xl font-extrabold text-slate-800 tracking-tight">
               {totalCalories}
             </span>
-            <span className="text-xs text-white/50 mt-1">/ {dailyGoal} kcal</span>
+            <span className="text-xs text-slate-400 mt-0.5 font-medium">/ {dailyGoal} kcal</span>
           </div>
         </div>
 
         {/* Macro Summary with Goals */}
-        <div className="grid grid-cols-3 gap-4 w-full text-center z-10">
+        <div className="grid grid-cols-3 gap-4 w-full text-center z-10 mt-2">
           <div className="flex flex-col">
-            <span className="text-white/50 text-[10px] font-semibold uppercase tracking-wider mb-1">Protein</span>
-            <span className="text-white font-medium text-lg leading-none">{totalProtein}g</span>
-            <span className="text-white/30 text-[10px] mt-1">/ {proteinGoal}g</span>
+            <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">Protein</span>
+            <span className="text-slate-700 font-bold text-[17px] leading-none">{totalProtein}g</span>
+            <span className="text-slate-400 text-[10px] mt-1 font-medium">/ {proteinGoal}g</span>
           </div>
-          <div className="flex flex-col border-x border-white/10">
-            <span className="text-white/50 text-[10px] font-semibold uppercase tracking-wider mb-1">Carbs</span>
-            <span className="text-white font-medium text-lg leading-none">{totalCarbs}g</span>
-            <span className="text-white/30 text-[10px] mt-1">/ {carbsGoal}g</span>
+          <div className="flex flex-col border-x border-slate-100">
+            <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">Carbs</span>
+            <span className="text-slate-700 font-bold text-[17px] leading-none">{totalCarbs}g</span>
+            <span className="text-slate-400 text-[10px] mt-1 font-medium">/ {carbsGoal}g</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-white/50 text-[10px] font-semibold uppercase tracking-wider mb-1">Fat</span>
-            <span className="text-white font-medium text-lg leading-none">{totalFat}g</span>
-            <span className="text-white/30 text-[10px] mt-1">/ {fatGoal}g</span>
+            <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">Fat</span>
+            <span className="text-slate-700 font-bold text-[17px] leading-none">{totalFat}g</span>
+            <span className="text-slate-400 text-[10px] mt-1 font-medium">/ {fatGoal}g</span>
           </div>
         </div>
 
       </motion.div>
 
       {/* Input Form Toggle */}
-      <div className="flex bg-black/40 backdrop-blur-md rounded-2xl p-1 mb-4 w-64 mx-auto border border-white/10 relative z-10">
+      <div className="flex bg-slate-200/50 backdrop-blur-sm rounded-xl p-1 mb-4 w-64 mx-auto relative z-10">
          <button
             onClick={() => setIsManualMode(false)}
-            className={`flex-1 py-2 text-xs font-semibold rounded-xl transition-all ${!isManualMode ? 'bg-indigo-500/20 text-indigo-300 shadow-sm' : 'text-white/50 hover:text-white/80'}`}
+            className={`flex-1 py-2 text-xs font-semibold rounded-[10px] transition-all ${!isManualMode ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
          >
             AI Assistant
          </button>
          <button
             onClick={() => setIsManualMode(true)}
-            className={`flex-1 py-2 text-xs font-semibold rounded-xl transition-all ${isManualMode ? 'bg-pink-500/20 text-pink-300 shadow-sm' : 'text-white/50 hover:text-white/80'}`}
+            className={`flex-1 py-2 text-xs font-semibold rounded-[10px] transition-all ${isManualMode ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
          >
             Manual Entry
          </button>
@@ -361,15 +358,14 @@ export default function CalorieTracker() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
         onSubmit={isManualMode ? handleManualSubmit : handleSubmit}
-        className="relative mb-6 group"
+        className="relative mb-8"
       >
-        <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
-        <div className="relative flex flex-col bg-black/40 backdrop-blur-md rounded-2xl border border-white/10 overflow-hidden shadow-lg p-1">
+        <div className="relative flex flex-col bg-white rounded-2xl ring-1 ring-slate-200 overflow-hidden shadow-sm p-1">
           
           {!isManualMode ? (
             <div className="flex items-center w-full">
-              <div className="pl-4 text-white/50">
-                {isLoading ? <Loader2 className="w-5 h-5 animate-spin text-pink-400" /> : <Utensils className="w-5 h-5" />}
+              <div className="pl-4 text-slate-400">
+                {isLoading ? <Loader2 className="w-5 h-5 animate-spin text-blue-500" /> : <Utensils className="w-5 h-5" />}
               </div>
               <input
                 type="text"
@@ -377,14 +373,14 @@ export default function CalorieTracker() {
                 onChange={(e) => setInput(e.target.value)}
                 disabled={isLoading}
                 placeholder='e.g., "2 Samosas and 1 Chai"'
-                className="w-full bg-transparent px-4 py-4 text-white placeholder-white/40 outline-none disabled:opacity-50 font-light"
+                className="w-full bg-transparent px-4 py-4 text-slate-900 placeholder-slate-400 outline-none disabled:opacity-50 font-medium"
               />
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                className="px-6 py-4 bg-white/10 hover:bg-white/20 text-white transition-colors disabled:opacity-50 flex items-center gap-2 border-l border-white/10 font-medium"
+                className="px-6 py-4 bg-slate-50 hover:bg-slate-100 text-blue-600 transition-colors disabled:opacity-50 flex items-center gap-2 border-l border-slate-200 font-bold"
               >
-                Add <Sparkles className="w-4 h-4" />
+                Add
               </button>
             </div>
           ) : (
@@ -395,54 +391,54 @@ export default function CalorieTracker() {
                 value={manualEntry.name}
                 onChange={(e) => setManualEntry({...manualEntry, name: e.target.value})}
                 placeholder="Food Name (e.g., Protein Shake)"
-                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/40 outline-none focus:border-pink-500/50 transition-colors"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-colors font-medium"
                />
                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                   <div className="relative">
-                     <span className="absolute right-3 top-3 text-white/30 text-xs font-bold uppercase">kcal</span>
+                     <span className="absolute right-3 top-3 text-slate-400 text-xs font-bold uppercase">kcal</span>
                      <input
                         type="number" required min="0" placeholder="0"
                         value={manualEntry.calories || ''}
                         onChange={(e) => setManualEntry({...manualEntry, calories: parseInt(e.target.value) || 0})}
-                        className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-indigo-500/50 font-medium pr-10"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 outline-none focus:border-blue-400 transition-colors font-medium pr-10"
                      />
-                     <label className="text-[10px] text-white/50 font-semibold uppercase tracking-wider ml-1 mt-1 block">Calories</label>
+                     <label className="text-[10px] text-slate-500 font-bold uppercase tracking-wider ml-1 mt-1 block">Calories</label>
                   </div>
                   <div className="relative">
-                     <span className="absolute right-3 top-3 text-white/30 text-xs font-bold uppercase">g</span>
+                     <span className="absolute right-3 top-3 text-slate-400 text-xs font-bold uppercase">g</span>
                      <input
                         type="number" min="0" placeholder="0"
                         value={manualEntry.protein || ''}
                         onChange={(e) => setManualEntry({...manualEntry, protein: parseInt(e.target.value) || 0})}
-                        className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-indigo-500/50 font-medium pr-8"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 outline-none focus:border-blue-400 transition-colors font-medium pr-8"
                      />
-                     <label className="text-[10px] text-white/50 font-semibold uppercase tracking-wider ml-1 mt-1 block">Protein</label>
+                     <label className="text-[10px] text-slate-500 font-bold uppercase tracking-wider ml-1 mt-1 block">Protein</label>
                   </div>
                   <div className="relative">
-                     <span className="absolute right-3 top-3 text-white/30 text-xs font-bold uppercase">g</span>
+                     <span className="absolute right-3 top-3 text-slate-400 text-xs font-bold uppercase">g</span>
                      <input
                         type="number" min="0" placeholder="0"
                         value={manualEntry.carbs || ''}
                         onChange={(e) => setManualEntry({...manualEntry, carbs: parseInt(e.target.value) || 0})}
-                        className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-indigo-500/50 font-medium pr-8"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 outline-none focus:border-blue-400 transition-colors font-medium pr-8"
                      />
-                     <label className="text-[10px] text-white/50 font-semibold uppercase tracking-wider ml-1 mt-1 block">Carbs</label>
+                     <label className="text-[10px] text-slate-500 font-bold uppercase tracking-wider ml-1 mt-1 block">Carbs</label>
                   </div>
                   <div className="relative">
-                     <span className="absolute right-3 top-3 text-white/30 text-xs font-bold uppercase">g</span>
+                     <span className="absolute right-3 top-3 text-slate-400 text-xs font-bold uppercase">g</span>
                      <input
                         type="number" min="0" placeholder="0"
                         value={manualEntry.fat || ''}
                         onChange={(e) => setManualEntry({...manualEntry, fat: parseInt(e.target.value) || 0})}
-                        className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-indigo-500/50 font-medium pr-8"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 outline-none focus:border-blue-400 transition-colors font-medium pr-8"
                      />
-                     <label className="text-[10px] text-white/50 font-semibold uppercase tracking-wider ml-1 mt-1 block">Fat</label>
+                     <label className="text-[10px] text-slate-500 font-bold uppercase tracking-wider ml-1 mt-1 block">Fat</label>
                   </div>
                </div>
                <button
                   type="submit"
                   disabled={!manualEntry.name || manualEntry.calories <= 0}
-                  className="w-full mt-2 py-3 bg-gradient-to-r from-indigo-500/20 to-pink-500/20 hover:from-indigo-500/40 hover:to-pink-500/40 border border-indigo-500/30 text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full mt-2 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                >
                   Add Custom Food
                </button>
@@ -469,12 +465,12 @@ export default function CalorieTracker() {
             exit={{ opacity: 0, height: 0, y: -10 }}
             className="mb-8"
           >
-            <div className="bg-indigo-900/30 border border-indigo-500/30 rounded-2xl p-4 backdrop-blur-sm">
+            <div className="bg-blue-50 border border-blue-100 rounded-2xl p-4">
               <div className="flex items-start gap-3">
-                <BrainCircuit className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
+                <BrainCircuit className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="text-indigo-300 text-xs font-semibold uppercase tracking-wider mb-1">AI Thoughts</h4>
-                  <p className="text-indigo-100/80 text-sm leading-relaxed">{lastReasoning}</p>
+                  <h4 className="text-blue-700 text-xs font-bold uppercase tracking-wider mb-1">AI Thoughts</h4>
+                  <p className="text-blue-900/80 text-sm leading-relaxed font-medium">{lastReasoning}</p>
                 </div>
               </div>
             </div>
@@ -492,22 +488,22 @@ export default function CalorieTracker() {
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: 20, scale: 0.95 }}
               transition={{ duration: 0.2, delay: index * 0.05 }}
-              className="group backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-colors"
+              className="group bg-white ring-1 ring-slate-200 rounded-2xl p-5 hover:shadow-md transition-all relative overflow-hidden"
             >
               <div className="flex items-center justify-between mb-3 w-full">
                 <div className="min-w-0 pr-4 flex-1">
-                  <h3 className="text-white font-semibold text-lg truncate flex items-center gap-2">
+                  <h3 className="text-slate-800 font-bold text-lg truncate flex items-center gap-2">
                     {food.name}
                   </h3>
-                  <p className="text-white/50 text-sm truncate">{food.quantity_description}</p>
+                  <p className="text-slate-500 text-sm font-medium truncate">{food.quantity_description}</p>
                 </div>
                 <div className="flex items-center gap-4 shrink-0">
-                  <span className="text-pink-300 font-bold tabular-nums text-xl">
-                    {food.calories} <span className="text-pink-300/60 text-sm font-normal">kcal</span>
+                  <span className="text-blue-600 font-black tabular-nums text-2xl">
+                    {food.calories} <span className="text-blue-400 text-sm font-semibold">kcal</span>
                   </span>
                   <button
                     onClick={() => removeFood(food.id)}
-                    className="p-2 text-white/40 hover:text-red-400 hover:bg-black/20 rounded-full transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 block md:hidden md:group-hover:block"
+                    className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 block md:hidden md:group-hover:block"
                     aria-label="Remove item"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -517,25 +513,25 @@ export default function CalorieTracker() {
 
               {/* Macros Breakdown */}
               <div className="flex flex-wrap items-center gap-3 text-xs">
-                <div className="bg-white/5 px-2.5 py-1 rounded-md border border-white/10 text-white/80">
-                  P: <span className="font-semibold text-white">{food.protein}g</span>
+                <div className="bg-slate-50 px-2.5 py-1rounded-lg ring-1 ring-slate-200 text-slate-500 font-medium">
+                  P: <span className="font-bold text-slate-700">{food.protein}g</span>
                 </div>
-                <div className="bg-white/5 px-2.5 py-1 rounded-md border border-white/10 text-white/80">
-                  C: <span className="font-semibold text-white">{food.carbs}g</span>
+                <div className="bg-slate-50 px-2.5 py-1rounded-lg ring-1 ring-slate-200 text-slate-500 font-medium">
+                  C: <span className="font-bold text-slate-700">{food.carbs}g</span>
                 </div>
-                <div className="bg-white/5 px-2.5 py-1 rounded-md border border-white/10 text-white/80">
-                  F: <span className="font-semibold text-white">{food.fat}g</span>
+                <div className="bg-slate-50 px-2.5 py-1rounded-lg ring-1 ring-slate-200 text-slate-500 font-medium">
+                  F: <span className="font-bold text-slate-700">{food.fat}g</span>
                 </div>
                 <button
                   type="button"
                   onClick={() => toggleExpand(food.id)}
-                  className={`ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-full border transition-colors ${expandedFoodId === food.id
-                    ? 'bg-indigo-500/20 border-indigo-500/40 text-indigo-300'
-                    : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:text-white/80'
+                  className={`ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-full font-bold transition-colors ${expandedFoodId === food.id
+                    ? 'bg-blue-100 text-blue-700'
+                    : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'
                     }`}
                 >
                   <Info className="w-3.5 h-3.5 shrink-0" />
-                  <span className="font-medium">Details</span>
+                  <span>Details</span>
                   <ChevronDown className={`w-3.5 h-3.5 transition-transform ${expandedFoodId === food.id ? 'rotate-180' : ''}`} />
                 </button>
               </div>
@@ -549,15 +545,15 @@ export default function CalorieTracker() {
                     exit={{ opacity: 0, height: 0, marginTop: 0 }}
                     className="overflow-hidden"
                   >
-                    <div className="bg-black/20 rounded-xl p-4 border border-white/5 shadow-inner">
-                      <h4 className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-4 flex items-center gap-2">
-                        <Sparkles className="w-3 h-3" /> Comprehensive Breakdown
+                    <div className="bg-slate-50 rounded-xl p-4 ring-1 ring-slate-200">
+                      <h4 className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
+                        Comprehensive Breakdown
                       </h4>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-4">
                         {Object.entries(food.nutritional_breakdown).map(([key, value]) => (
                           <div key={key} className="flex flex-col">
-                            <span className="text-white/50 text-[10px] uppercase tracking-wider mb-0.5 font-semibold block truncate" title={key}>{key}</span>
-                            <span className="text-white/90 text-sm font-medium">{String(value)}</span>
+                            <span className="text-slate-400 text-[10px] uppercase tracking-wider mb-0.5 font-bold block truncate" title={key}>{key}</span>
+                            <span className="text-slate-700 text-sm font-semibold">{String(value)}</span>
                           </div>
                         ))}
                       </div>
@@ -574,7 +570,7 @@ export default function CalorieTracker() {
               animate={{ opacity: 1 }}
               className="text-center py-10"
             >
-              <p className="text-white/30 text-sm">Tell me what you ate today...</p>
+              <p className="text-slate-400 font-medium text-sm">Tell me what you ate today...</p>
             </motion.div>
           )}
 
@@ -584,8 +580,8 @@ export default function CalorieTracker() {
               animate={{ opacity: 1 }}
               className="text-center py-10 flex flex-col items-center justify-center gap-4"
             >
-              <Loader2 className="w-8 h-8 animate-spin text-pink-400/50" />
-              <p className="text-pink-300/50 text-sm animate-pulse">Analyzing nutritional data...</p>
+              <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+              <p className="text-blue-600 font-semibold text-sm animate-pulse">Analyzing nutritional data...</p>
             </motion.div>
           )}
         </AnimatePresence>

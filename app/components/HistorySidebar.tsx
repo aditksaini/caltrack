@@ -82,7 +82,7 @@ export default function HistorySidebar({ userId }: HistorySidebarProps) {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed top-24 left-4 z-50 bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md p-3 rounded-full text-white/80 transition-all hover:scale-105 shadow-xl"
+        className="fixed top-24 left-4 z-50 bg-white hover:bg-slate-50 ring-1 ring-slate-200 p-3 rounded-full text-slate-600 transition-all hover:scale-105 shadow-md"
         title="View Past Nutrition Logs"
       >
         <History className="w-5 h-5" />
@@ -101,18 +101,18 @@ export default function HistorySidebar({ userId }: HistorySidebarProps) {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="w-full max-w-sm bg-gray-900 border-r border-white/10 h-full p-6 overflow-y-auto flex flex-col relative shadow-2xl"
+              className="w-full max-w-sm bg-[#F2F2F7] border-r border-slate-200 h-full p-6 overflow-y-auto flex flex-col relative shadow-2xl"
             >
               <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
 
-              <div className="flex justify-between items-center mb-8 relative z-10">
-                <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-indigo-400" />
+              <div className="flex justify-between items-center mb-8 relative z-10 text-slate-800">
+                <h2 className="text-xl font-extrabold flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-blue-500" />
                   Your History
                 </h2>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="text-white/50 hover:text-white bg-white/5 hover:bg-white/10 p-2 rounded-full transition-colors"
+                  className="text-slate-400 hover:text-slate-600 bg-white shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 p-2 rounded-full transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -121,41 +121,41 @@ export default function HistorySidebar({ userId }: HistorySidebarProps) {
               {isLoading ? (
                 <div className="flex flex-col gap-4">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="h-24 bg-white/5 animate-pulse rounded-2xl border border-white/10" />
+                    <div key={i} className="h-24 bg-slate-200 animate-pulse rounded-2xl" />
                   ))}
                 </div>
               ) : logs.length === 0 ? (
-                <div className="text-center text-white/40 mt-10">
+                <div className="text-center text-slate-400 mt-10">
                   <History className="w-12 h-12 mx-auto mb-3 opacity-20" />
-                  <p>No logged days yet.</p>
+                  <p className="font-medium">No logged days yet.</p>
                 </div>
               ) : (
                 <div className="flex flex-col gap-4 relative z-10">
                   {logs.map((log) => (
                     <div
                       key={log.id}
-                      className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden transition-all hover:border-white/20"
+                      className="bg-white rounded-2xl shadow-sm ring-1 ring-slate-200 overflow-hidden transition-all hover:shadow-md"
                     >
                       <button
                         onClick={() => toggleExpand(log.id)}
                         className="w-full p-4 flex items-center justify-between text-left"
                       >
                         <div>
-                          <p className="font-semibold text-white/90">{new Date(log.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</p>
-                          <div className="flex items-center gap-3 mt-1 text-sm text-white/50">
+                          <p className="font-bold text-slate-800">{new Date(log.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</p>
+                          <div className="flex items-center gap-3 mt-1 text-sm text-slate-500 font-medium">
                             <span className="flex items-center gap-1">
-                              <Flame className="w-3.5 h-3.5 text-orange-400" />
+                              <Flame className="w-3.5 h-3.5 text-orange-500" />
                               {log.totalCalories} kcal
                             </span>
                             <span className="flex items-center gap-1">
-                              <Activity className="w-3.5 h-3.5 text-blue-400" />
+                              <Activity className="w-3.5 h-3.5 text-blue-500" />
                               {log.totalProtein}g P
                             </span>
                           </div>
                         </div>
                         <motion.div
                           animate={{ rotate: expandedLogId === log.id ? 90 : 0 }}
-                          className="text-white/40"
+                          className="text-slate-400"
                         >
                           <ChevronRight className="w-5 h-5" />
                         </motion.div>
@@ -167,23 +167,23 @@ export default function HistorySidebar({ userId }: HistorySidebarProps) {
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
-                            className="bg-black/30 border-t border-white/5"
+                            className="bg-slate-50 border-t border-slate-100"
                           >
                             <div className="p-4 flex flex-col gap-3">
                               {log.foods.length > 0 ? (
                                 log.foods.map((food, idx) => (
-                                  <div key={idx} className="flex justify-between items-center text-sm border-b border-white/5 pb-2 last:border-0 last:pb-0 group">
+                                  <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-200 pb-2 last:border-0 last:pb-0 group">
                                     <div className="flex-1 pr-2 overflow-hidden">
-                                      <p className="text-white/80 font-medium truncate">{food.name}</p>
-                                      <p className="text-white/40 text-[10px] mt-0.5 truncate">{food.quantity_description}</p>
+                                      <p className="text-slate-700 font-bold truncate">{food.name}</p>
+                                      <p className="text-slate-500 text-[10px] mt-0.5 truncate font-medium">{food.quantity_description}</p>
                                     </div>
                                     <div className="text-right flex items-center gap-3 shrink-0">
-                                      <span className="text-white/90 font-bold">{food.calories} kcal</span>
+                                      <span className="text-slate-800 font-extrabold">{food.calories} <span className="text-slate-500 text-xs font-semibold">kcal</span></span>
                                       {/* Only show trash icon if it's NOT today's date (today's are managed via the main tracker) */}
                                       {log.date !== new Date().toLocaleDateString('en-CA') && (
                                         <button
                                           onClick={(e) => removeHistoryFood(e, food.id)}
-                                          className="text-white/20 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100 p-1"
+                                          className="text-slate-300 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100 p-1"
                                           title="Delete from History"
                                         >
                                           <Trash2 className="w-4 h-4" />
@@ -193,7 +193,7 @@ export default function HistorySidebar({ userId }: HistorySidebarProps) {
                                   </div>
                                 ))
                               ) : (
-                                <p className="text-white/40 text-xs italic">No foods recorded.</p>
+                                <p className="text-slate-400 text-xs italic font-medium">No foods recorded.</p>
                               )}
                             </div>
                           </motion.div>
