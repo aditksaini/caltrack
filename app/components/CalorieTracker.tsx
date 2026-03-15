@@ -233,10 +233,11 @@ export default function CalorieTracker() {
       
       {!userId && <LoginModal onLogin={handleLogin} />}
 
-      {userId && <HistorySidebar userId={userId} />}
-
-      {/* User Profile Modal Component */}
-      <UserProfile onProfileUpdate={setUserProfile} />
+      {/* Top Navigation Bar for Floating Action Buttons */}
+      <div className="flex items-center justify-between mb-6 px-1">
+        {userId ? <HistorySidebar userId={userId} /> : <div className="w-10"></div>}
+        <UserProfile onProfileUpdate={setUserProfile} />
+      </div>
 
       {/* Daily Total Ring */}
       <motion.div

@@ -135,10 +135,9 @@ export default function UserProfile({ onProfileUpdate }: UserProfileProps) {
 
   return (
     <>
-      {/* Settings Toggle Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed top-4 right-4 md:top-8 md:right-8 z-50 p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-colors group shadow-lg"
+        className="bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md p-2.5 rounded-full transition-all group shadow-xl flex items-center justify-center"
       >
         <Settings className="w-5 h-5 text-white/60 group-hover:text-white group-hover:rotate-45 transition-all duration-300" />
       </button>

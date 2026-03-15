@@ -82,7 +82,7 @@ export default function HistorySidebar({ userId }: HistorySidebarProps) {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed top-24 left-4 z-50 bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md p-3 rounded-full text-white/80 transition-all hover:scale-105 shadow-xl"
+        className="bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md p-2.5 rounded-full text-white/80 hover:text-white transition-all shadow-xl flex items-center justify-center"
         title="View Past Nutrition Logs"
       >
         <History className="w-5 h-5" />
