@@ -30,17 +30,21 @@ const defaultProfile: UserProfileData = {
 };
 
 interface UserProfileProps {
+  userId: string | null;
   onProfileUpdate: (profile: UserProfileData) => void;
 }
 
-export default function UserProfile({ onProfileUpdate }: UserProfileProps) {
+export default function UserProfile({ userId, onProfileUpdate }: UserProfileProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [profile, setProfile] = useState<UserProfileData>(defaultProfile);
   const [isSaved, setIsSaved] = useState(false);
 
-  // Load from local storage on mount
+  // Load from local storage on mount or when userId changes
   useEffect(() => {
-    const savedProfile = localStorage.getItem('userNutritionProfile');
+    // Determine the storage key based on userId (or use guest)
+    const storageKey = userId ? `caltrack_profile_${userId}` : 'caltrack_profile_guest';
+    const savedProfile = localStorage.getItem(storageKey);
+    
     if (savedProfile) {
       try {
         const parsed = JSON.parse(savedProfile);
@@ -50,11 +54,18 @@ export default function UserProfile({ onProfileUpdate }: UserProfileProps) {
         console.error("Failed to parse saved profile");
       }
     } else {
-      // Run initial calculation to establish baseline
-      calculateAndSave(defaultProfile);
+      // If no profile exists for this user, they are new.
+      // Revert to defaults.
+      setProfile(defaultProfile);
+      onProfileUpdate(defaultProfile);
+      
+      // Force the modal open if they are actually logged in but have no profile
+      if (userId) {
+        setIsOpen(true);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userId]);
 
   const calculateTargets = (data: UserProfileData): typeof data.calculatedTargets => {
     // 1. Calculate BMR (Mifflin-St Jeor Equation)
@@ -120,7 +131,10 @@ export default function UserProfile({ onProfileUpdate }: UserProfileProps) {
     const calculated = calculateTargets(dataToSave);
     const updatedProfile = { ...dataToSave, calculatedTargets: calculated };
     setProfile(updatedProfile);
-    localStorage.setItem('userNutritionProfile', JSON.stringify(updatedProfile));
+    
+    const storageKey = userId ? `caltrack_profile_${userId}` : 'caltrack_profile_guest';
+    localStorage.setItem(storageKey, JSON.stringify(updatedProfile));
+    
     onProfileUpdate(updatedProfile);
   };
 

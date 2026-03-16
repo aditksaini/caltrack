@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Trash2, Utensils, Loader2, BrainCircuit, Activity, Info, ChevronDown, RefreshCw, Download } from 'lucide-react';
+import { Sparkles, Trash2, Utensils, Loader2, BrainCircuit, Activity, Info, ChevronDown, RefreshCw, Download, LogIn, LogOut, User as UserIcon } from 'lucide-react';
 import UserProfile, { UserProfileData } from './UserProfile';
 import HistorySidebar from './HistorySidebar';
 import LoginModal from './LoginModal';
@@ -29,13 +29,42 @@ export default function CalorieTracker() {
   // Auth State
   const [userId, setUserId] = useState<string | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Profile State
   const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
 
+  // Check for existing session natively
+  React.useEffect(() => {
+    const savedId = localStorage.getItem('caltrack_userId');
+    const savedName = localStorage.getItem('caltrack_userName');
+    if (!savedId || !savedName) {
+      setShowLoginModal(true);
+    } else {
+      setUserId(savedId);
+      setUserName(savedName);
+      fetchTodayLogs(savedId);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('caltrack_userId');
+    localStorage.removeItem('caltrack_userName');
+    setUserId(null);
+    setUserName(null);
+    setFoods([]);
+    setIsDropdownOpen(false);
+  };
+
   const fetchTodayLogs = async (uid: string) => {
     try {
       const res = await fetch(`/api/logs?userId=${uid}`);
+      if (res.status === 404) {
+        handleLogout();
+        setShowLoginModal(true);
+        return;
+      }
       if (res.ok) {
         const allLogs = await res.json();
         const todayDate = new Date().toLocaleDateString('en-CA');
@@ -50,9 +79,17 @@ export default function CalorieTracker() {
   };
 
   const handleLogin = (uid: string, name: string) => {
+    if (userId !== uid) {
+      // Clear data when switching users
+      setFoods([]);
+      setExpandedFoodId(null);
+      setLastReasoning(null);
+    }
     setUserId(uid);
     setUserName(name);
     fetchTodayLogs(uid);
+    setShowLoginModal(false);
+    setIsDropdownOpen(false);
   };
 
   const handleReset = () => {
@@ -164,7 +201,14 @@ export default function CalorieTracker() {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ...item, userId }),
-            }).catch(err => console.error("Failed to save to DB", err));
+            })
+            .then(res => {
+              if (res.status === 404) {
+                handleLogout();
+                setShowLoginModal(true);
+              }
+            })
+            .catch(err => console.error("Failed to save to DB", err));
           });
         }
       }
@@ -211,7 +255,14 @@ export default function CalorieTracker() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...newItem, userId }),
-      }).catch(err => console.error("Failed to save manual entry to DB", err));
+      })
+      .then(res => {
+        if (res.status === 404) {
+          handleLogout();
+          setShowLoginModal(true);
+        }
+      })
+      .catch(err => console.error("Failed to save manual entry to DB", err));
     }
   };
 
@@ -231,12 +282,77 @@ export default function CalorieTracker() {
   return (
     <div className="w-[92%] sm:w-full max-w-md mx-auto relative z-10">
       
-      {!userId && <LoginModal onLogin={handleLogin} />}
+      <AnimatePresence>
+        {showLoginModal && (
+          <LoginModal 
+            onLogin={handleLogin} 
+            onClose={() => setShowLoginModal(false)}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Top Navigation Bar for Floating Action Buttons */}
-      <div className="flex items-center justify-between mb-6 px-1">
-        {userId ? <HistorySidebar userId={userId} /> : <div className="w-10"></div>}
-        <UserProfile onProfileUpdate={setUserProfile} />
+      <div className="flex items-center justify-between mb-6 px-1 relative z-40">
+        <div className="w-10">
+          {userId && <HistorySidebar userId={userId} />}
+        </div>
+        
+        <div className="flex-1 flex justify-center relative">
+          {userId ? (
+            <div className="relative">
+              <button 
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="flex items-center gap-2 bg-white/10 border border-white/20 backdrop-blur-md px-4 py-2 rounded-full shadow-lg hover:bg-white/20 transition-all font-bold text-white/90"
+              >
+                <UserIcon className="w-4 h-4 text-blue-400" />
+                {userName}
+                <ChevronDown className={`w-4 h-4 text-white/50 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+              
+              <AnimatePresence>
+                {isDropdownOpen && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute top-full mt-2 w-48 bg-white ring-1 ring-slate-200 rounded-2xl shadow-xl overflow-hidden py-1 z-50 left-1/2 -translate-x-1/2"
+                  >
+                    <button 
+                      onClick={() => {
+                        setIsDropdownOpen(false);
+                        setShowLoginModal(true);
+                      }}
+                      className="w-full text-left px-4 py-3 hover:bg-slate-50 text-sm font-bold text-slate-700 flex items-center gap-2 transition-colors"
+                    >
+                      <UserIcon className="w-4 h-4 text-blue-500" />
+                      Change User
+                    </button>
+                    <div className="h-px w-full bg-slate-100" />
+                    <button 
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-3 hover:bg-red-50 text-sm font-bold text-red-600 flex items-center gap-2 transition-colors"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Log Out
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ) : (
+            <button 
+              onClick={() => setShowLoginModal(true)}
+              className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2 rounded-full shadow-md hover:bg-blue-700 transition-all font-bold text-sm cursor-pointer border border-blue-500"
+            >
+              <LogIn className="w-4 h-4" />
+              Log In
+            </button>
+          )}
+        </div>
+
+        <div className="w-10 flex justify-end">
+          <UserProfile userId={userId} onProfileUpdate={setUserProfile} />
+        </div>
       </div>
 
       {/* Daily Total Ring */}

@@ -2,25 +2,17 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, LogIn, Loader2 } from 'lucide-react';
+import { User, LogIn, Loader2, X } from 'lucide-react';
 
 interface LoginModalProps {
   onLogin: (userId: string, userName: string) => void;
+  onClose?: () => void;
 }
 
-export default function LoginModal({ onLogin }: LoginModalProps) {
+export default function LoginModal({ onLogin, onClose }: LoginModalProps) {
   const [name, setName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  // Check LocalStorage on mount
-  useEffect(() => {
-    const savedId = localStorage.getItem('caltrack_userId');
-    const savedName = localStorage.getItem('caltrack_userName');
-    if (savedId && savedName) {
-      onLogin(savedId, savedName);
-    }
-  }, [onLogin]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,13 +62,21 @@ export default function LoginModal({ onLogin }: LoginModalProps) {
           <div className="absolute bottom-0 left-0 w-32 h-32 bg-pink-500/20 rounded-full blur-3xl -ml-16 -mb-16 pointer-events-none"></div>
 
           <div className="relative z-10">
-            <div className="flex justify-center mb-6">
-              <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shadow-inner">
-                <User className="w-8 h-8 text-indigo-400" />
+            {onClose && (
+              <button
+                onClick={onClose}
+                className="absolute top-0 right-0 p-2 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-full transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+            <div className="flex justify-center mb-6 mt-4">
+              <div className="w-16 h-16 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-center shadow-sm">
+                <User className="w-8 h-8 text-blue-500" />
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold text-center text-white mb-2">Welcome to CalTrack</h2>
+            <h2 className="text-2xl font-extrabold text-center text-slate-800 mb-2 tracking-tight">Welcome to CalTrack</h2>
             <p className="text-center text-white/50 text-sm mb-8">
               Please enter your name to access your personal calorie log and history.
             </p>

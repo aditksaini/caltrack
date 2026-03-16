@@ -70,6 +70,9 @@ export async function GET(request: Request) {
 
     if (!userId) return NextResponse.json({ error: 'User ID is required' }, { status: 401 });
 
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 });
+
     // Fetch ONLY the logs belonging to this specific user
     const logs = await prisma.dailyLog.findMany({
       where: { userId },
@@ -96,6 +99,9 @@ export async function DELETE(request: Request) {
     const userId = searchParams.get('userId');
 
     if (!userId) return NextResponse.json({ error: 'User ID is required' }, { status: 401 });
+
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 });
 
     const today = new Date().toLocaleDateString('en-CA');
 
